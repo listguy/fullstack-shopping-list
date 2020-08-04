@@ -1,0 +1,23 @@
+{
+  "name": "fullstack-shopping-list",
+  "version": "1.0.0",
+  "description": "RESTful API",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/listguy/fullstack-shopping-list.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/listguy/fullstack-shopping-list/issues"
+  },
+  "homepage": "https://github.com/listguy/fullstack-shopping-list#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
