@@ -16,12 +16,15 @@ const printProducts = async () => {
     divContainer.appendChild(productContainer);
   });
 }
+
 printProducts();
 
-const searchProduct = async (productString) => {
-  try {
-    const prodObj = { product: productString };
 
+
+
+
+const addProduct = async (productString) => {
+  try {
     await axios.post(`http://localhost:3000/products`, {
       product: productString
     });
@@ -40,8 +43,36 @@ const searchProduct = async (productString) => {
   }
 };
 
+const deleteOrEdit = async (e) => {
+  const target = e.target;
+  const productDiv = target.parentNode;
+  const productString = productDiv.children[0].innerHTML;
+  const productId = Array.from(divContainer.children).indexOf(productDiv) + 1;
+  //console.log(productDiv);
+  if (target.className === "remove-button") {
+    deleteProduct(productId);
+    console.log("product was deleted");
+    productDiv.remove();
+  }
+  else if (target.className === "edit-button") {
+    console.log("i need to edit this"); //TODO edit
+  }
+}
 
+const deleteProduct = async (productId) => {
+  await axios.delete(`http://localhost:3000/products/${productId}`);
+}
+
+const editProduct = async (productId) => {
+  await axios.put(`http://localhost:3000/products/${productId}`);
+}
+
+
+
+//event listeneres
 searchButton.addEventListener("click", () => {
-  searchProduct(searchInput.value);
+  addProduct(searchInput.value);
 
 })
+
+divContainer.addEventListener("click", deleteOrEdit)
