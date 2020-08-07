@@ -4,14 +4,16 @@ const divContainer = document.getElementById("divContainer");
 
 
 const printProducts = async () => {
+  divContainer.innerHTML = "";
   const { data } = await axios.get(`http://localhost:3000/products`)
   data.forEach(productObj => {
     let productContainer = document.createElement('div')
     productContainer.className = "productContainer"
+    productContainer.id = `id-${productObj.id}`;
     let productDiv = `
     <div class= "productText">${productObj.product}</div>
-    <button class="remove-button"> remove </button>
-    <button class="edit-button"> edit </button>`
+    <div class="buttons"><button class="remove-button"> remove </button>
+    <button class="edit-button"> edit </button></div>`
     productContainer.innerHTML = productDiv;
     divContainer.appendChild(productContainer);
   });
@@ -25,15 +27,16 @@ printProducts();
 
 const addProduct = async (productString) => {
   try {
-    await axios.post(`http://localhost:3000/products`, {
+    const productObj = await axios.post(`http://localhost:3000/products`, {
       product: productString
     });
     let productContainer = document.createElement('div')
     productContainer.className = "productContainer"
+    productContainer.id = `id-${productObj.id}`;
     let productDiv = `
     <div class= "productText">${productString}</div>
-    <button class="remove-button"> remove </button>
-    <button class="edit-button"> edit </button>`
+    <div class="buttons"><button class="remove-button"> remove </button>
+    <button class="edit-button"> edit </button></div>`
     productContainer.innerHTML = productDiv;
     divContainer.appendChild(productContainer);
     searchInput.value = "";
@@ -45,26 +48,34 @@ const addProduct = async (productString) => {
 
 const deleteOrEdit = async (e) => {
   const target = e.target;
-  const productDiv = target.parentNode;
-  const productString = productDiv.children[0].innerHTML;
-  const productId = Array.from(divContainer.children).indexOf(productDiv) + 1;
-  //console.log(productDiv);
+  const productDiv = target.parentNode.parentNode;
+  let productString = productDiv.children[0].innerHTML;
+  const productId = productDiv.id.substring(3);
+
   if (target.className === "remove-button") {
+    productDiv.remove();
     deleteProduct(productId);
     console.log("product was deleted");
-    productDiv.remove();
+
   }
   else if (target.className === "edit-button") {
-    console.log("i need to edit this"); //TODO edit
+    editProduct(productId, productString).then((productEdit) => {
+      productString = productEdit;
+      // printProducts();
+    });
   }
 }
 
-const deleteProduct = async (productId) => {
-  await axios.delete(`http://localhost:3000/products/${productId}`);
+const deleteProduct = (productId) => {
+  axios.delete(`http://localhost:3000/products/${productId}`);
 }
 
-const editProduct = async (productId) => {
-  await axios.put(`http://localhost:3000/products/${productId}`);
+const editProduct = async (productId, productString) => {
+  const productEdit = prompt("Enter product", productString);
+  await axios.put(`http://localhost:3000/products/${productId}`,
+    { product: productEdit });
+  return productEdit;
+
 }
 
 
