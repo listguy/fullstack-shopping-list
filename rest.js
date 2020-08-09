@@ -2,6 +2,7 @@ const express = require('express');
 const app = express();
 
 app.use(express.json());
+//app.use(express.urlencoded({ extended: true }));
 
 //a static array consisting all products
 let products = [
@@ -16,7 +17,7 @@ let products = [
     {
         id: '3',
         product: 'meat'
-    },
+    }
 ];
 
 //'get' entry point to recive all products
@@ -31,7 +32,7 @@ app.get('/products', (req, res) => {
 // return: product object
 app.get('/products/:productID', (req, res) => {
     products.forEach(product => {
-        if(product.id === req.params.productID) {
+        if (product.id === req.params.productID) {
             res.send(product);
         }
     })
@@ -42,7 +43,7 @@ app.get('/products/:productID', (req, res) => {
 // return: new product object
 app.post('/products', (req, res) => {
     let newProduct = {
-        id: parseInt(products[products.length -1].id) + 1+"",
+        id: parseInt(products[products.length - 1].id) + 1 + "",
         product: req.body.product
     };
     products.push(newProduct);
@@ -54,7 +55,7 @@ app.post('/products', (req, res) => {
 // return: the updated product object
 app.put('/products/:productID', (req, res) => {
     let index = FindIndexOfProduct(req.params.productID);
-    if(index != undefined) {
+    if (index != undefined) {
         products[index].product = req.body.product;
         res.send(products[index]);
     }
@@ -65,7 +66,7 @@ app.put('/products/:productID', (req, res) => {
 // return: undefined
 app.delete('/products/:productID', (req, res) => {
     let index = FindIndexOfProduct(req.params.productID);
-    if(index != undefined) {
+    if (index != undefined) {
         products.splice(index, 1);
     }
     res.send();
@@ -77,7 +78,7 @@ app.delete('/products/:productID', (req, res) => {
 function FindIndexOfProduct(rpId) {
     let index;
     products.forEach((product, i) => {
-        if(product.id === rpId) {
+        if (product.id === rpId) {
             index = i;
         }
     });

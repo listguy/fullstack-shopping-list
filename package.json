@@ -2,8 +2,11 @@
   "name": "fullstack-shopping-list",
   "version": "1.0.0",
   "description": "RESTful API",
-  "main": "index.js",
-  "scripts": {
+  "main": "rest.js",
+  "dependencies": {
+    "express": "^4.17.1"
+  },
+
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -16,8 +19,4 @@
   "bugs": {
     "url": "https://github.com/listguy/fullstack-shopping-list/issues"
   },
-  "homepage": "https://github.com/listguy/fullstack-shopping-list#readme",
-  "dependencies": {
-    "express": "^4.17.1"
-  }
-}
+
