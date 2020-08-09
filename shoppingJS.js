@@ -60,8 +60,7 @@ const deleteOrEdit = async (e) => {
   }
   else if (target.className === "edit-button") {
     editProduct(productId, productString).then((productEdit) => {
-      productString = productEdit;
-      // printProducts();
+      productDiv.children[0].innerHTML = productEdit;
     });
   }
 }
